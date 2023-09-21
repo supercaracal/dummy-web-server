@@ -1,0 +1,38 @@
+---
+# https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions
+# https://github.com/actions/virtual-environments
+name: Deploy
+on:
+  push:
+    branches:
+      - "master"
+defaults:
+  run:
+    shell: bash
+jobs:
+  build:
+    name: Build
+    if: github.repository == 'supercaracal/dummy-web-server'
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    concurrency: ${{ github.workflow }}
+    permissions:
+      packages: write
+    env:
+      IMAGE_NAME: dummy-web-server
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Build image
+        run: docker build . --tag $IMAGE_NAME
+
+      - name: Log into GitHub Container Registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Push image to GitHub Container Registry
+        run: |
+          IMAGE_ID=$(echo "ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME" | tr '[A-Z]' '[a-z]')
+          VERSION=latest
+          docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
+          docker push $IMAGE_ID:$VERSION
