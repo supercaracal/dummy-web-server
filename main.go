@@ -55,10 +55,6 @@ func getPortNumber(defaultNumber int) int {
 }
 
 func isSubCommand(cmd string) bool {
-	if len(os.Args) == 0 {
-		return false
-	}
-
 	for _, arg := range os.Args {
 		if arg == cmd {
 			return true
