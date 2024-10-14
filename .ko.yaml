@@ -1,0 +1,14 @@
+---
+# https://ko.build/configuration/
+defaultPlatforms:
+  - linux/amd64
+  - linux/arm64
+defaultEnv:
+  - CGO_ENABLED=0
+defaultFlags:
+  - -trimpath
+  - -tags
+  - timetzdata
+defaultLdflags:
+  - -s
+  - -w
