@@ -49,7 +49,7 @@ services:
     image: ghcr.io/supercaracal/dummy-web-server
     restart: always
     healthcheck:
-      test: ["CMD", "/usr/local/bin/dummy-web-server", "health"]
+      test: ["CMD", "/ko-app/dummy-web-server", "health"]
       interval: "10s"
       timeout: "5s"
       retries: 1
