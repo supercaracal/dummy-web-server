@@ -9,13 +9,13 @@ on:
 defaults:
   run:
     shell: bash
+concurrency: ${{ github.workflow }}
 jobs:
   build:
     name: Build
     if: github.repository == 'supercaracal/dummy-web-server'
-    timeout-minutes: 15
+    timeout-minutes: 10
     runs-on: ubuntu-latest
-    concurrency: ${{ github.workflow }}
     permissions:
       packages: write
     steps:
