@@ -26,9 +26,11 @@ jobs:
         uses: ko-build/setup-ko@v0.7
 
       - name: Log into GitHub Container Registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
+        run: >
+          echo "${{ secrets.GITHUB_TOKEN }}"
+          | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
 
       - name: Push an image to GitHub Container Registry
         env:
-          KO_DOCKER_REPO: "ghcr.io/supercaracal/dummy-web-server"
+          KO_DOCKER_REPO: "ghcr.io/${{ github.repository }}"
         run: ko build --tags latest --bare .
