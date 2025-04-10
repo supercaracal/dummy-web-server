@@ -43,7 +43,7 @@ func main() {
 func getPortNumber(defaultNumber int) int {
 	port := defaultNumber
 	if v := os.Getenv("PORT"); v != "" {
-		if n, err := strconv.Atoi(v); err == nil && n > 1023 {
+		if n, err := strconv.Atoi(v); err == nil {
 			port = n
 		}
 	}
